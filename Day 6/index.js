@@ -9,19 +9,13 @@ fs.readFile(fileName, 'UTF-8', (_, data) => {
 
 function findPacket(data, packetLength) {
     for (let i = 0; i <= data.length-packetLength; i++) {
-        let flag = true;
         let letters = [];
         for (let j = i; j < i + packetLength; j++) {
-            if (!letters.includes(data[j])) {
-                letters.push(data[j]);
-            } else {
-                flag = false;
-                break;
-            }
+            if (!letters.includes(data[j])) letters.push(data[j]);
+            else break;
         }
-        if (flag) {
-            return [letters, i+packetLength];
-        }
+
+        if (letters.length === packetLength) return i+packetLength;
     }
 
     return null;
